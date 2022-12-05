@@ -4,14 +4,21 @@ with open('./inputs.txt') as f:
 chars = '.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 sum_priority = 0
+line_nb = -1
+current_group = []
 for line in inputs:
     line = line.strip()
-    mid = round(len(line) / 2)
-    part_1 = line[:mid]
-    part_2 = line[mid:]
+    line_nb += 1
 
-    item = [w for w in part_1 if w in part_2][0]
+    if line_nb % 3 == 2:
+        current_group.append(line)
 
-    sum_priority += chars.index(item)
+        item = [w for w in current_group[0] if w in current_group[1] and w in current_group[2]][0]
+        sum_priority += chars.index(item)
+
+        current_group = []
+        continue
+
+    current_group.append(line)
 
 print(sum_priority)
